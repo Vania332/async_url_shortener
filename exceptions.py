@@ -1,6 +1,6 @@
 
 
-class ShortenerBaseError():
+class ShortenerBaseError(Exception):
     pass
 
 class NoLongUrlFoundError(ShortenerBaseError):

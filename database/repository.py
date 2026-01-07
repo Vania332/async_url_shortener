@@ -16,18 +16,26 @@ class URLRepository():
     def __init__(self, session: AsyncSession):
         self.session = session 
     
+    
     def generate_slug(self):
         return ''.join(choice(ALPHABET) for _ in range(6))
     
+    
     async def create_short_url(self, long_url: str) -> ShortURL:
         slug = self.generate_slug()
-        while await self.get_url_by_slug(slug):
-            slug = self.generate_slug()
+        while True:
+            try:
+                await self.get_url_by_slug(slug)
+                slug = self.generate_slug()
+            except NoLongUrlFoundError:
+                break    
+
         short_url_obj = ShortURL(slug=slug, long_url=long_url)
         self.session.add(short_url_obj)
         await self.session.commit()
         await self.session.refresh(short_url_obj)
         return short_url_obj
+        
         
     async def get_url_by_slug(self, slug: str) -> ShortURL:
         result = await self.session.execute(select(ShortURL).where(ShortURL.slug == slug))
