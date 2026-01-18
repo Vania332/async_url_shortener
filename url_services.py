@@ -44,6 +44,3 @@ class URLServices():
     
 async def get_services(session: AsyncSession = Depends(get_repo)) -> URLServices:
     return URLServices(session)
-
-
-##я какать
