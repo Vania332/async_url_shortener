@@ -1,5 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 import string
 from secrets import choice
 from database.models import ShortURL
@@ -18,9 +19,12 @@ class URLRepository():
     
     async def add_obj_to_database(self, short_url_obj: ShortURL):
         self.session.add(short_url_obj)
-        await self.session.commit()
+        try:
+            await self.session.commit()
+        except IntegrityError:
+            raise 
         await self.session.refresh(short_url_obj)
-        
+    
         
     async def get_url_by_slug(self, slug: str) -> ShortURL:
         result = await self.session.execute(select(ShortURL).where(ShortURL.slug == slug))

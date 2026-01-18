@@ -6,8 +6,9 @@ class ShortenerBaseError(Exception):
 class NoLongUrlFoundError(ShortenerBaseError):
     pass
 
-class DbError(ShortenerBaseError):
+class SlugAlreadyExists(ShortenerBaseError):
     pass
 
 class SlugGenerationError(ShortenerBaseError):
     pass
+

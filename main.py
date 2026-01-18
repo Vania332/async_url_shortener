@@ -27,7 +27,7 @@ async def generate_short_url(
 @app.get("/{slug}")
 async def redirect_to_url(
     slug: str,
-    services: URLServices = Depends(get_repo),
+    services: URLServices = Depends(get_services),
     ):
     try:
         long_url = await services.get_long_url(slug)
