@@ -7,4 +7,7 @@ class NoLongUrlFoundError(ShortenerBaseError):
     pass
 
 class DbError(ShortenerBaseError):
-    ...
+    pass
+
+class SlugGenerationError(ShortenerBaseError):
+    pass
