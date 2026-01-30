@@ -11,4 +11,3 @@ class SlugAlreadyExists(ShortenerBaseError):
 
 class SlugGenerationError(ShortenerBaseError):
     pass
-

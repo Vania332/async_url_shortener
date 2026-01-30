@@ -1,10 +1,15 @@
+import os
+from dotenv import load_dotenv
 from typing import AsyncGenerator
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 from contextlib import asynccontextmanager
 from database.models import Base
 
+load_dotenv()
+DATABASE_URL = os.getenv("DATABASE_URL")
+
 engine = create_async_engine(
-    url="mysql+asyncmy://root:1234@127.0.0.1:3306/url_shortener",
+    DATABASE_URL,
     echo=True
 )
 

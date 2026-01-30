@@ -4,7 +4,7 @@ from fastapi import Depends, FastAPI, Body, status, HTTPException
 from fastapi.responses import RedirectResponse
 from database.db import lifespan, AsyncSessionLocal
 from database.repository import get_repo
-from exceptions import NoLongUrlFoundError
+from exceptions import NoLongUrlFoundError, SlugAlreadyExists
 from url_services import URLServices, get_services
 
 
@@ -16,8 +16,10 @@ async def generate_short_url(
     long_url: str = Body(embed=True),
     services: URLServices = Depends(get_services),
 ):
-    short_url_obj = await services.create_short_url(long_url)
-    
+    try:
+        short_url_obj = await services.create_short_url(long_url)
+    except SlugAlreadyExists():
+        raise HTTPException(status_code=500, detail="Не удалось создать slug")
     return {
         "slug": short_url_obj.slug,
         "full": short_url_obj

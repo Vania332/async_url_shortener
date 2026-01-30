@@ -8,7 +8,7 @@ from database.models import ShortURL
 from database.db import get_session
 from fastapi import Depends
 
-from exceptions import NoLongUrlFoundError
+from exceptions import NoLongUrlFoundError, SlugAlreadyExists
 
 ALPHABET = string.ascii_letters + string.digits
 
@@ -22,7 +22,7 @@ class URLRepository():
         try:
             await self.session.commit()
         except IntegrityError:
-            raise 
+            raise SlugAlreadyExists
         await self.session.refresh(short_url_obj)
     
         
