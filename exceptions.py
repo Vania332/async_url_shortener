@@ -11,3 +11,6 @@ class SlugAlreadyExists(ShortenerBaseError):
 
 class SlugGenerationError(ShortenerBaseError):
     pass
+
+class NotURLInserted(ShortenerBaseError):
+    pass

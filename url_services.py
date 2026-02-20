@@ -7,7 +7,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from database.models import ShortURL
 from database.repository import URLRepository
-from exceptions import SlugGenerationError, NoLongUrlFoundError, SlugAlreadyExists
+from exceptions import SlugGenerationError, NoLongUrlFoundError, SlugAlreadyExists, NotURLInserted
+
+from schemas import URLSchema
 
 ALPHABET = string.ascii_letters + string.digits
 
@@ -41,6 +43,7 @@ class URLServices():
     
     def _generate_random_slug(self, length: int) -> str:
         return ''.join(choice(ALPHABET) for _ in range(length))
+    
     
 async def get_services(repo: AsyncSession = Depends(get_repo)) -> URLServices:
     return URLServices(repo)
